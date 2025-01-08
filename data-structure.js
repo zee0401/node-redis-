@@ -39,12 +39,31 @@ async function redisDataStructure() {
       "Mohammad",
     ]);
 
+    //extract all the friends
     const range = await client.lRange("user:friends", 0, -1);
     console.log(range);
 
     const firstFriend = await client.lPop("user:friends");
 
     console.log(firstFriend);
+
+    //---sMmebership data type -> sadd,srem,sismember,smembers
+
+    await client.sAdd("user:Nicknames", ["john", "jonny", "xyz"]);
+
+    const checkMember = await client.sIsMember("user:Nicknames", "jonny");
+
+    console.log(checkMember);
+
+    //sMembers
+
+    const allNicknames = await client.sMembers("user:Nicknames");
+    console.log(allNicknames);
+
+    //srem
+
+    const deleteNickname = await client.sRem("user:Nicknames", "jonny");
+    console.log(deleteNickname);
   } catch (err) {
     console.log(err);
   } finally {
