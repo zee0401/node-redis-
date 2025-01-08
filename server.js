@@ -13,6 +13,11 @@ async function testRedisConnection() {
   try {
     await client.connect();
     console.log("Redis connection established");
+
+    await client.set("key", "zeshan");
+
+    const getValue = await client.get("key");
+    console.log("Value is " + getValue);
   } catch (err) {
     console.log(" Error connecting to Redis" + err);
   } finally {
