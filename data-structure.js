@@ -21,16 +21,34 @@ async function redisDataStructure() {
       "user:gender",
       "male",
     ]);
-    const getValue = await client.mget([
+    const { name, age, gender } = await client.mGet([
       "user:name",
       "user:age",
       "user:gender",
     ]);
 
-    console.log(getValue);
+    console.log(name, age, gender);
+
+    //list data type -> lpush,rpush,lpop,rpop,llen,lrange
+
+    await client.lPush("user:friends", [
+      "irshad",
+      "Arham",
+      "Salman",
+      "Tauseef",
+      "Mohammad",
+    ]);
+
+    const range = await client.lRange("user:friends", 0, -1);
+    console.log(range);
+
+    const firstFriend = await client.lPop("user:friends");
+
+    console.log(firstFriend);
   } catch (err) {
     console.log(err);
   } finally {
     client.quit();
   }
 }
+redisDataStructure();
